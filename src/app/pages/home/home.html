@@ -1,0 +1,20 @@
+@if(isLoading()){
+<h1 class="text-3xl font-bold">Cargando películas...</h1>
+}@else {
+<div class="flex flex-col items-center">
+  <h1 class="text-3xl font-bold">Películas y Series Populares</h1>
+  <app-filters></app-filters>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-4">
+    @for (item of films(); track item.title) {
+
+    <app-card [film]="item"></app-card>
+    } @empty {
+    <li>There are no items.</li>
+    }
+  </div>
+
+  <app-pagination></app-pagination>
+</div>
+
+}
