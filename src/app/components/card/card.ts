@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { NgOptimizedImage } from '@angular/common';
 import { LazyImage } from './lazy-image/lazy-image';
 
 @Component({

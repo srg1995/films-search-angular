@@ -3,6 +3,7 @@ import { Card } from '../../components/card/card';
 import { Filters } from '../../components/filters/filters';
 import { Pagination } from '../../components/pagination/pagination';
 import { FilmsService, Genre, GenreResponse } from '../../services/film.service';
+import { FiltersStore } from '../../services/store.service';
 
 @Component({
   selector: 'app-home',
@@ -12,6 +13,7 @@ import { FilmsService, Genre, GenreResponse } from '../../services/film.service'
   styleUrls: ['./home.css'],
 })
 export class Home {
+  constructor(public store: FiltersStore) {}
   public readonly filmService = inject(FilmsService);
 
   page: WritableSignal<number> = signal(1);
@@ -33,5 +35,12 @@ export class Home {
   public nextPage(): void {
     console.log('pasa pagina');
     this.page.update((p) => p + 1);
+  }
+
+  public isSelected(film: any): boolean {
+    return (
+      this.store.selectedFilters().length === 0 ||
+      this.store.selectedFilters().some((g) => film.genre_ids.includes(g.id))
+    );
   }
 }

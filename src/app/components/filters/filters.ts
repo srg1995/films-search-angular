@@ -13,14 +13,10 @@ export class Filters {
   @Input() genres: Genre[] | undefined;
   open: WritableSignal<boolean> = signal(false);
 
-  getGenres(): void {
-    console.log(this.genres);
-  }
   toggleOpen() {
     this.open.update((value) => !value);
   }
   toggleFilter = (filter: Genre) => {
-    console.log('llega', filter);
     const exists = this.store.selectedFilters().some((s) => s.id === filter.id);
     if (exists) {
       this.store.removeFilter(filter); // elimina el filtro del filtersStore
@@ -28,7 +24,6 @@ export class Filters {
       this.store.addFilter(filter); // añade el filtro al filtersStore
     }
     this.open.set(false);
-    console.log(this.store.selectedFilters());
   };
 
   isSelected(id: number): boolean {
