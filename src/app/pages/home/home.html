@@ -6,15 +6,17 @@
 
   <app-filters [genres]="genres"></app-filters>
 
-  <button (click)="nextPage()" class="bg-amber-600 cursor-pointer">PAsa de pagina</button>
-
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-4">
-    @for (item of films.value()?.results ?? []; track item.title) {
-    @if(this.isSelected(item)){<app-card [film]="item"></app-card>} } @empty {
+    @for (film of filmsResource.value()?.results ?? []; track film.title) {
+    @if(this.isSelected(film)){<app-card [film]="film"></app-card>} } @empty {
     <li>There are no items.</li>
     }
   </div>
-  <app-pagination></app-pagination>
+  <app-pagination
+    [page]="page()"
+    [totalPages]="totalPages()"
+    (pageChange)="onPageChange($event)"
+  ></app-pagination>
 </div>
 
 }

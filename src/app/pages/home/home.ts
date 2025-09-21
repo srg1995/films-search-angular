@@ -1,4 +1,4 @@
-import { Component, inject, Signal, signal, WritableSignal } from '@angular/core';
+import { Component, computed, inject, Signal, signal, WritableSignal } from '@angular/core';
 import { Card } from '../../components/card/card';
 import { Filters } from '../../components/filters/filters';
 import { Pagination } from '../../components/pagination/pagination';
@@ -17,24 +17,23 @@ export class Home {
   public readonly filmService = inject(FilmsService);
 
   page: WritableSignal<number> = signal(1);
-  films = this.filmService.getFilms(this.page);
+  filmsResource = this.filmService.getFilms(this.page);
   genresResource = this.filmService.getGenre();
+
+  totalPages = computed(() => {
+    return this.filmsResource.value()?.total_pages ?? 1;
+  });
 
   get genres(): Genre[] {
     const data = this.genresResource.value();
     return data?.genres ?? [];
   }
   updateFilms(): void {
-    this.films = this.filmService.getFilms(this.page);
+    this.filmsResource = this.filmService.getFilms(this.page);
   }
 
   get isLoading(): boolean {
-    return this.films.status() === 'loading';
-  }
-
-  public nextPage(): void {
-    console.log('pasa pagina');
-    this.page.update((p) => p + 1);
+    return this.filmsResource.status() === 'loading';
   }
 
   public isSelected(film: any): boolean {
@@ -42,5 +41,9 @@ export class Home {
       this.store.selectedFilters().length === 0 ||
       this.store.selectedFilters().some((g) => film.genre_ids.includes(g.id))
     );
+  }
+
+  onPageChange(newPage: number) {
+    this.page.set(newPage);
   }
 }
