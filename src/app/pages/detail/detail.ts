@@ -1,5 +1,5 @@
 import { Component, signal, Signal } from '@angular/core';
-import { Film } from '../../services/get-films';
+import { Film } from '../../services/film.service';
 import { RouterLink } from '@angular/router';
 
 @Component({

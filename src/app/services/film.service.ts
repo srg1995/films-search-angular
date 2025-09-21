@@ -1,6 +1,7 @@
 import { HttpClient, httpResource } from '@angular/common/http';
 import { inject, Injectable, ResourceRef, Signal } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../enviroments/enviroment.local';
 
 export interface Film {
   id: number;
@@ -21,19 +22,37 @@ export interface FilmsResponse {
   total_results: number;
 }
 
+export interface Genre {
+  id: number;
+  name: string;
+}
+export interface GenreResponse {
+  genres: Genre[];
+}
+
 @Injectable({ providedIn: 'root' })
 export class FilmsService {
-  private apiUrl = 'https://api.themoviedb.org/3/movie/popular?language=es-ES';
-
-  privateapiKey = import.meta.env['VITE_TMDB_API_KEY'];
+  private apiUrl = 'https://api.themoviedb.org/3';
+  private apiKey = environment.tmdbApiKey;
 
   getFilms(page: Signal<number>): ResourceRef<FilmsResponse | undefined> {
     return httpResource<FilmsResponse>(() => ({
-      url: `${this.apiUrl}'&page=${page()}'`,
+      url: `${this.apiUrl}/movie/popular?language=es-ES&page=${page()}`,
       method: 'GET',
       headers: {
         accept: 'application/json',
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyNmRkOGMwZmUzY2MwNGVkZGMxOWZmYTFkZjJmMmM3NCIsIm5iZiI6MTc1ODEwMDI3Ny4xNTkwMDAyLCJzdWIiOiI2OGNhN2IzNTIwZmYwZWIyNjVlMzYyM2MiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.bzlnEE7F7IxBtAtaeX2zgWbS_6rckMnlmmK5pLpMPkc`,
+        Authorization: `Bearer ${this.apiKey}`,
+      },
+    }));
+  }
+  getFilmById(): void {}
+  getGenre(): ResourceRef<GenreResponse | undefined> {
+    return httpResource<GenreResponse>(() => ({
+      url: `${this.apiUrl}/genre/movie/list?language=es`,
+      method: 'GET',
+      headers: {
+        accept: 'application/json',
+        Authorization: `Bearer ${this.apiKey}`,
       },
     }));
   }
