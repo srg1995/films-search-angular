@@ -1,0 +1,10 @@
+<img
+  [src]="imageUrl"
+  (load)="onLoad()"
+  alt="Película"
+  class="w-full h-full object-cover transition duration-500 ease-in-out"
+  [ngClass]="{
+    'blur-0 scale-100': imageLoaded,
+    'blur-md scale-105': !imageLoaded
+  }"
+/>
