@@ -1,8 +1,8 @@
-import { Component, inject, Signal, signal } from '@angular/core';
+import { Component, inject, Signal, signal, WritableSignal } from '@angular/core';
 import { Card } from '../../components/card/card';
 import { Filters } from '../../components/filters/filters';
 import { Pagination } from '../../components/pagination/pagination';
-import { Film, FilmsService } from '../../services/get-films';
+import { FilmsService } from '../../services/get-films';
 
 @Component({
   selector: 'app-home',
@@ -12,13 +12,20 @@ import { Film, FilmsService } from '../../services/get-films';
   styleUrls: ['./home.css'],
 })
 export class Home {
-  protected readonly title = signal('films-search-angular');
-  protected readonly isLoading = signal(false);
   public readonly filmService = inject(FilmsService);
 
-  page: Signal<number> = signal(1);
-  films: Signal<Film[]> = signal(this.filmService.getFilms(this.page()).results);
-  actualizarFilms(): void {
-    const films = this.filmService.getFilms(this.page());
+  page: WritableSignal<number> = signal(1);
+  films = this.filmService.getFilms(this.page);
+  updateFilms(): void {
+    this.films = this.filmService.getFilms(this.page);
+  }
+
+  get isLoading(): boolean {
+    return this.films.status() === 'loading';
+  }
+
+  public nextPage(): void {
+    console.log('pasa pagina');
+    this.page.update((p) => p + 1);
   }
 }

@@ -1,4 +1,6 @@
-import { Injectable } from '@angular/core';
+import { HttpClient, httpResource } from '@angular/common/http';
+import { inject, Injectable, ResourceRef, Signal } from '@angular/core';
+import { Observable } from 'rxjs';
 
 export interface Film {
   id: number;
@@ -10,6 +12,13 @@ export interface Film {
   overview: string;
   vote_average: number;
   genre_ids: number[];
+}
+
+export interface FilmsResponse {
+  page: number;
+  results: Film[];
+  total_pages: number;
+  total_results: number;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -361,20 +370,19 @@ export class FilmsService {
     total_pages: 52551,
     total_results: 1051006,
   };
-  /*private http = inject(HttpClient);
 
-  async getFilms(page: number): Promise<{ results: Film[] }> {
-    const url = `https://api.themoviedb.org/3/movie/popular?language=es-ES&page=${page}`;
-    const headers = {
-      accept: 'application/json',
-      Authorization: `Bearer ${process.env['NG_APP_TMDB_TOKEN']!}`,
-    };
+  private apiUrl = 'https://api.themoviedb.org/3/movie/popular?language=es-ES';
 
-    return await lastValueFrom(this.http.get<{ results: Film[] }>(url, { headers }));
-  }*/
-  getFilms(page: number): { results: Film[] } {
-    console.log('Llamada a la API simulada para la página:', page);
-    console.log(this.response.results);
-    return this.response;
+  privateapiKey = import.meta.env['VITE_TMDB_API_KEY'];
+
+  getFilms(page: Signal<number>): ResourceRef<FilmsResponse | undefined> {
+    return httpResource<FilmsResponse>(() => ({
+      url: `${this.apiUrl}'&page=${page()}'`,
+      method: 'GET',
+      headers: {
+        accept: 'application/json',
+        Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyNmRkOGMwZmUzY2MwNGVkZGMxOWZmYTFkZjJmMmM3NCIsIm5iZiI6MTc1ODEwMDI3Ny4xNTkwMDAyLCJzdWIiOiI2OGNhN2IzNTIwZmYwZWIyNjVlMzYyM2MiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.bzlnEE7F7IxBtAtaeX2zgWbS_6rckMnlmmK5pLpMPkc`,
+      },
+    }));
   }
 }
