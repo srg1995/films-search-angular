@@ -2,7 +2,7 @@ import { Component, inject, Signal, signal, WritableSignal } from '@angular/core
 import { Card } from '../../components/card/card';
 import { Filters } from '../../components/filters/filters';
 import { Pagination } from '../../components/pagination/pagination';
-import { FilmsService } from '../../services/get-films';
+import { FilmsService, Genre, GenreResponse } from '../../services/film.service';
 
 @Component({
   selector: 'app-home',
@@ -16,6 +16,12 @@ export class Home {
 
   page: WritableSignal<number> = signal(1);
   films = this.filmService.getFilms(this.page);
+  genresResource = this.filmService.getGenre();
+
+  get genres(): Genre[] {
+    const data = this.genresResource.value();
+    return data?.genres ?? [];
+  }
   updateFilms(): void {
     this.films = this.filmService.getFilms(this.page);
   }
