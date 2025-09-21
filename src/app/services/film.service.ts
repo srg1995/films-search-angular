@@ -1,6 +1,5 @@
-import { HttpClient, httpResource } from '@angular/common/http';
-import { inject, Injectable, ResourceRef, Signal } from '@angular/core';
-import { Observable } from 'rxjs';
+import { httpResource } from '@angular/common/http';
+import { Injectable, ResourceRef, Signal } from '@angular/core';
 import { environment } from '../enviroments/enviroment.local';
 
 export interface Film {
@@ -13,6 +12,7 @@ export interface Film {
   overview: string;
   vote_average: number;
   genre_ids: number[];
+  genres: Genre[];
 }
 
 export interface FilmsResponse {
@@ -45,7 +45,16 @@ export class FilmsService {
       },
     }));
   }
-  getFilmById(): void {}
+  getFilmById(id: number): ResourceRef<Film | undefined> {
+    return httpResource<Film>(() => ({
+      url: `${this.apiUrl}/movie/${id}?language=es-ES`,
+      method: 'GET',
+      headers: {
+        accept: 'application/json',
+        Authorization: `Bearer ${this.apiKey}`,
+      },
+    }));
+  }
   getGenre(): ResourceRef<GenreResponse | undefined> {
     return httpResource<GenreResponse>(() => ({
       url: `${this.apiUrl}/genre/movie/list?language=es`,

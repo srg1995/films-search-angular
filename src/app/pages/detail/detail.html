@@ -2,7 +2,8 @@
 <div class="flex justify-center items-center h-screen">
   <p class="text-xl font-semibold text-gray-700 animate-pulse">Cargando...</p>
 </div>
-} @else {
+} @else { @if(filmResource.value(); as film){
+
 <div class="max-w-6xl mx-auto p-6 md:p-12">
   <a
     routerLink="/"
@@ -14,43 +15,36 @@
   <div class="flex flex-col md:flex-row gap-8 bg-blue-50 shadow-xl rounded-2xl overflow-hidden">
     <div class="md:w-1/3 flex justify-center items-start">
       <img
-        src="https://image.tmdb.org/t/p/w400{{ data().poster_path }}"
-        alt="{{ data().title || data().name }}"
+        src="https://image.tmdb.org/t/p/w400{{ film.poster_path }}"
+        alt="{{ film.title || film.name }}"
         class="shadow-lg transition-transform transform hover:scale-105"
       />
     </div>
 
     <div class="md:w-2/3 p-6 flex flex-col justify-between">
-      <h1 class="text-4xl font-bold mb-4">{{ data().title || data().name }}</h1>
+      <h1 class="text-4xl font-bold mb-4">{{ film.title || film.name }}</h1>
       <p class="text-gray-700 text-lg mb-4 line-clamp-8">
-        {{ data().overview || 'No hay descripción disponible.' }}
+        {{ film.overview || 'No hay descripción disponible.' }}
       </p>
 
       <div class="flex flex-wrap gap-4 mt-4">
         <span
           class="px-3 py-1 bg-indigo-100 border-2 border-indigo-200 text-indigo-800 font-medium rounded-full"
         >
-          ⭐ {{ data().vote_average }}
+          ⭐ {{ film.vote_average }}
         </span>
 
-        @for(g of data().genre_ids;track g) {
+        @for(g of film.genres; track g) {
         <span
           class="px-3 py-1 bg-green-100 border-2 border-green-200 text-green-800 font-medium rounded-full"
         >
-          {{ g }}
+          {{ g.name }}
         </span>
         } @empty {
         <span>No hay géneros disponibles.</span>
         }
-        <!--<span
-          v-for="g in data().genre_ids"
-          :key="g.id"
-          class="px-3 py-1 bg-green-100 border-2 border-green-200 text-green-800 font-medium rounded-full"
-        >
-          {{ g.name }}
-        </span>-->
       </div>
     </div>
   </div>
 </div>
-}
+} }
