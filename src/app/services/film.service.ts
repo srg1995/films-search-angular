@@ -1,19 +1,8 @@
 import { httpResource } from '@angular/common/http';
 import { Injectable, ResourceRef, Signal } from '@angular/core';
 import { environment } from '../enviroments/enviroment.local';
-
-export interface Film {
-  id: number;
-  poster_path: string;
-  title: string;
-  name?: string;
-  release_date: string;
-  first_air_date?: string;
-  overview: string;
-  vote_average: number;
-  genre_ids: number[];
-  genres: Genre[];
-}
+import { Film } from '../models/Film.model';
+import { Genre } from '../models/Genre.model';
 
 export interface FilmsResponse {
   page: number;
@@ -22,10 +11,6 @@ export interface FilmsResponse {
   total_results: number;
 }
 
-export interface Genre {
-  id: number;
-  name: string;
-}
 export interface GenreResponse {
   genres: Genre[];
 }
@@ -46,6 +31,7 @@ export class FilmsService {
     }));
   }
   getFilmById(id: number): ResourceRef<Film | undefined> {
+    console.log('service' + id);
     return httpResource<Film>(() => ({
       url: `${this.apiUrl}/movie/${id}?language=es-ES`,
       method: 'GET',

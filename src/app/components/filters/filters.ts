@@ -1,6 +1,6 @@
 import { Component, Input, signal, WritableSignal } from '@angular/core';
-import { Genre } from '../../services/film.service';
 import { FiltersStore } from '../../services/store.service';
+import { Genre } from '../../models/Genre.model';
 
 @Component({
   selector: 'app-filters',

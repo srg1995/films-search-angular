@@ -2,8 +2,9 @@ import { Component, computed, inject, Signal, signal, WritableSignal } from '@an
 import { Card } from '../../components/card/card';
 import { Filters } from '../../components/filters/filters';
 import { Pagination } from '../../components/pagination/pagination';
-import { FilmsService, Genre, GenreResponse } from '../../services/film.service';
+import { FilmsService } from '../../services/film.service';
 import { FiltersStore } from '../../services/store.service';
+import { Genre } from '../../models/Genre.model';
 
 @Component({
   selector: 'app-home',

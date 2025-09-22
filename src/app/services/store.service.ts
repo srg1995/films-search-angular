@@ -1,5 +1,5 @@
 import { Injectable, signal, WritableSignal } from '@angular/core';
-import { Genre } from './film.service';
+import { Genre } from '../models/Genre.model';
 
 @Injectable({ providedIn: 'root' })
 export class FiltersStore {
