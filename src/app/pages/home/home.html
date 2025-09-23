@@ -2,9 +2,20 @@
 <h1 class="text-3xl font-bold">Cargando películas...</h1>
 }@else {
 <div class="flex flex-col items-center">
-  <h1 class="text-3xl font-bold">Películas y Series Populares</h1>
+  <div class="w-full p-8 flex justify-between">
+    <h1 class="text-3xl font-bold">Películas y Series Populares</h1>
+    <button
+      (click)="login()"
+      class="bg-blue-500 text-white font-semibold px-4 py-2 rounded-xl hover:bg-blue-600 transition-colors duration-300 disabled:opacity-50 cursor-pointer"
+    >
+      @if(isLoged()){ LogOut }@else { LogIn }
+    </button>
+  </div>
 
-  <app-filters [genres]="genres"></app-filters>
+  <div class="p-8 gap-2 flex items-start flex-col w-full">
+    <h2 class="text-2xl bold">Filtros</h2>
+    <app-filters [genres]="genres"></app-filters>
+  </div>
 
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 p-4">
     @for (film of filmsResource.value()?.results ?? []; track film.title) {

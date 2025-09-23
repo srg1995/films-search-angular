@@ -47,4 +47,19 @@ export class Home {
   onPageChange(newPage: number) {
     this.page.set(newPage);
   }
+  login(): void {
+    if (this.isLoged()) {
+      localStorage.removeItem('userLoged');
+    } else {
+      localStorage.setItem('userLoged', 'true');
+    }
+  }
+  isLoged(): boolean {
+    const user = typeof localStorage !== 'undefined' && localStorage.getItem('userLoged');
+    if (user) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
