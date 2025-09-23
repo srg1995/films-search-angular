@@ -1,10 +1,13 @@
 import { Component, inject, ResourceRef, signal, Signal } from '@angular/core';
 import { FilmsService } from '../../services/film.service';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { zip } from 'rxjs';
+import { CurrencyPipe, LowerCasePipe, TitleCasePipe } from '@angular/common';
+import { CapitalizePipe } from '../../pipes/capitalize-pipe';
 
 @Component({
   selector: 'app-detail',
-  imports: [RouterLink],
+  imports: [RouterLink, CapitalizePipe],
   templateUrl: './detail.html',
   styleUrl: './detail.css',
 })
