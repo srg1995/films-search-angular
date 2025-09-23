@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { Detail } from './pages/detail/detail';
 import { Home } from './pages/home/home';
 import { authGuard } from './guards/auth/auth-guard';
 
@@ -11,8 +10,12 @@ export const routes: Routes = [
   {
     path: 'details/:id',
     canActivate: [authGuard],
-    data: { role: 'userLoged' },
     loadComponent: () => import('./pages/detail/detail').then((m) => m.Detail),
+  },
+  {
+    path: 'contact',
+    canActivate: [authGuard],
+    loadComponent: () => import('./pages/contact/contact').then((m) => m.Contact),
   },
   {
     path: '**',

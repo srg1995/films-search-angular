@@ -5,10 +5,11 @@ import { Pagination } from '../../components/pagination/pagination';
 import { FilmsService } from '../../services/film.service';
 import { FiltersStore } from '../../services/store.service';
 import { Genre } from '../../models/Genre.model';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-home',
-  imports: [Filters, Card, Pagination],
+  imports: [Filters, Card, Pagination, RouterLink],
 
   templateUrl: './home.html',
   styleUrls: ['./home.css'],
