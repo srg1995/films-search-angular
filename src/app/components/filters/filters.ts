@@ -1,4 +1,4 @@
-import { Component, Input, signal, WritableSignal } from '@angular/core';
+import { Component, signal, WritableSignal, input } from '@angular/core';
 import { FiltersStore } from '../../services/store.service';
 import { Genre } from '../../models/Genre.model';
 
@@ -10,7 +10,7 @@ import { Genre } from '../../models/Genre.model';
 })
 export class Filters {
   constructor(public store: FiltersStore) {}
-  @Input() genres: Genre[] | undefined;
+  readonly genres = input<Genre[]>();
   open: WritableSignal<boolean> = signal(false);
 
   toggleOpen() {

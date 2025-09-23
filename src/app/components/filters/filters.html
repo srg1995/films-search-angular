@@ -27,10 +27,10 @@
   </div>
 
   <ul class="max-h-60 overflow-y-auto">
-    @if((genres?.length ?? 0) === 0) {
+    @if((genres()?.length ?? 0) === 0) {
 
     <li class="px-3 py-2 text-gray-500">Sin resultados</li>
-    }@else { @for ( genre of genres ?? []; track genre.id) {
+    }@else { @for ( genre of genres() ?? []; track genre.id) {
     <li
       class="cursor-pointer px-3 py-2 flex justify-between items-center hover:bg-gray-50"
       (click)="toggleFilter(genre)"

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'app-lazy-image',
@@ -8,7 +8,7 @@ import { Component, Input, input } from '@angular/core';
   styleUrl: './lazy-image.css',
 })
 export class LazyImage {
-  @Input() imageUrl: string | undefined;
+  readonly imageUrl = input<string>();
   imageLoaded = false;
 
   onLoad() {

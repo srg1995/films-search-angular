@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { LazyImage } from './lazy-image/lazy-image';
 
@@ -9,5 +9,5 @@ import { LazyImage } from './lazy-image/lazy-image';
   styleUrl: './card.css',
 })
 export class Card {
-  @Input() film: any;
+  readonly film = input<any>();
 }
