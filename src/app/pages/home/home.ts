@@ -1,11 +1,12 @@
-import { Component, computed, inject, OnInit, Signal, signal, WritableSignal } from '@angular/core';
+import { Component, computed, inject, signal, WritableSignal } from '@angular/core';
 import { Card } from '../../components/card/card';
 import { Filters } from '../../components/filters/filters';
 import { Pagination } from '../../components/pagination/pagination';
-import { FilmsResponse, FilmsService, GenreResponse } from '../../services/film.service';
+import { FilmsService } from '../../services/film.service';
 import { FiltersStore } from '../../services/store.service';
 import { RouterLink } from '@angular/router';
-import { effect } from '@angular/core';
+
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-home',
@@ -15,24 +16,15 @@ import { effect } from '@angular/core';
 })
 export class Home {
   public readonly filmsService = inject(FilmsService);
-  protected filmsData = signal<FilmsResponse | undefined>(undefined);
-  protected genresData = signal<GenreResponse | undefined>(undefined);
+
   protected page: WritableSignal<number> = signal(1);
   protected isLoading = computed(() => !this.filmsData());
   protected totalPages = computed(() => this.filmsData()?.total_pages ?? 1);
 
-  constructor(public store: FiltersStore) {
-    effect(() => {
-      this.filmsService.getFilms(this.page()).subscribe({
-        next: (films) => this.filmsData.set(films),
-        error: () => this.filmsData.set(undefined),
-      });
-      this.filmsService.getGenre().subscribe({
-        next: (genres) => this.genresData.set(genres),
-        error: () => this.genresData.set(undefined),
-      });
-    });
-  }
+  protected filmsData = toSignal(this.filmsService.getFilms(this.page()));
+  protected genresData = toSignal(this.filmsService.getGenre());
+
+  constructor(public store: FiltersStore) {}
 
   protected isSelected(film: any): boolean {
     return (
