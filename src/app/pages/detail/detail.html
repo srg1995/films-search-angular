@@ -1,8 +1,8 @@
-@if(isLoading){
+@if(isLoading()){
 <div class="flex justify-center items-center h-screen">
   <p class="text-xl font-semibold text-gray-700 animate-pulse">Cargando...</p>
 </div>
-} @else { @if(filmResource.value(); as film){
+} @else { @if(filmData(); as film){
 
 <div class="max-w-6xl mx-auto p-6 md:p-12">
   <a
@@ -22,7 +22,7 @@
     </div>
 
     <div class="md:w-2/3 p-6 flex flex-col justify-between">
-      <h1 class="text-4xl font-bold mb-4">{{ film.title | capitalize }}</h1>
+      <h1 class="text-4xl font-bold mb-4">{{ film.title }}</h1>
       <p class="text-gray-700 text-lg mb-4 line-clamp-8">
         {{ film.overview || 'No hay descripción disponible.' }}
       </p>
@@ -46,5 +46,12 @@
       </div>
     </div>
   </div>
+</div>
+}@else {
+<div class="flex flex-col justify-center gap-6 p-16">
+  <h1 class="text-3xl text-red-700 text-center">Se ha producido un error</h1>
+  <a routerLink="/" class="text-center text-indigo-600 font-semibold mb-6 hover:text-indigo-800">
+    Volver a la lista
+  </a>
 </div>
 } }
