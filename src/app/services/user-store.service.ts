@@ -8,11 +8,17 @@ export class UserStore {
 
   getName() {
     console.log('nombre de usuario', this.user()?.displayName);
-    return this.user()?.displayName;
+    return this.user;
   }
 
   addUser(user: User) {
     console.log('usuario añadido');
     this.user.set(user);
   }
+  deleteUser() {
+    this.user.set(null);
+  }
+  isLoged = () => {
+    return this.user();
+  };
 }
