@@ -3,19 +3,21 @@ import { Card } from '../../components/card/card';
 import { Filters } from '../../components/filters/filters';
 import { Pagination } from '../../components/pagination/pagination';
 import { FilmsService } from '../../services/film.service';
-import { FiltersStore } from '../../services/store.service';
+import { FiltersStore } from '../../services/filters-store.service';
 import { RouterLink } from '@angular/router';
 
 import { toSignal } from '@angular/core/rxjs-interop';
+import { Login } from '../../components/login/login';
+import { UserStore } from '../../services/user-store.service';
 
 @Component({
   selector: 'app-home',
-  imports: [Filters, Card, Pagination, RouterLink],
+  imports: [Filters, Card, Pagination, RouterLink, Login],
   templateUrl: './home.html',
   styleUrls: ['./home.css'],
 })
 export class Home {
-  public readonly filmsService = inject(FilmsService);
+  protected readonly filmsService = inject(FilmsService);
 
   protected page: WritableSignal<number> = signal(1);
   protected isLoading = computed(() => !this.filmsData());
@@ -24,6 +26,9 @@ export class Home {
   protected filmsData = toSignal(this.filmsService.getFilms(this.page()));
   protected genresData = toSignal(this.filmsService.getGenre());
 
+  protected storeUser = inject(UserStore);
+  protected user = this.storeUser.user; // ya es una signal reactiva
+  protected derivedUser = computed(() => this.storeUser.user()?.displayName);
   constructor(public store: FiltersStore) {}
 
   protected isSelected(film: any): boolean {

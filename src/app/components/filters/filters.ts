@@ -1,5 +1,5 @@
 import { Component, signal, WritableSignal, input } from '@angular/core';
-import { FiltersStore } from '../../services/store.service';
+import { FiltersStore } from '../../services/filters-store.service';
 import { Genre } from '../../models/Genre.model';
 
 @Component({
